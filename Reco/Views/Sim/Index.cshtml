@@ -1,0 +1,43 @@
+﻿@using Reco.Models;
+@model Reco.Models.SimModel
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Similaritatea cu ceilalti utilizatori</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-sm-12">
+                    <div class="col-sm-1">User ID
+                    </div>
+                    <div class="col-sm-2">
+                        <label>Similaritate</label></div>
+                    <div class="col-sm-2">
+                       User Name
+                    </div>
+                    <div class="col-sm-7"></div>
+                </div>
+                @foreach (var sim in Model.Similarities)
+                {
+                    <br /><br /><br />
+                    <div class="col-sm-12">
+                        <div class="col-sm-1">
+                            @(sim.UserId)
+                        </div>
+                        <div class="col-sm-2">
+                            @sim.Similarity
+                        </div>
+                        <div class="col-sm-2">
+                            @sim.UserName
+                        </div>
+                        <div class="col-sm-7">
+                            <a href="@Url.Action("Index2", "Sim", new { user1 = Model.UserId, user2 = sim.UserId })" class="btn btn-warning">Compara produse</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

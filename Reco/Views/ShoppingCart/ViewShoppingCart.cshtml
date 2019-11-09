@@ -1,0 +1,63 @@
+﻿@using Reco.Models;
+@model Reco.Models.ShoppingCartModel
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <p class="text-center"><code>Cos de cumparaturi</code></p>
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                            <tr class="headings">
+                                <th class="column-title"></th>
+                                <th class="column-title">Nume Produs</th>
+                                <th class="column-title">Cantitate </th>
+                                <th class="column-title">Pret </th>
+                                <th class="column-title no-link last">
+                                    <span class="nobr"></span>
+                                </th>
+                                <th class="bulk-actions" colspan="7">
+                                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                            <tr class="even pointer">
+                                @if (item.ImageUrl != null)
+                                {
+                                    <td class="user-profile"><img src="/images/@item.ImageUrl" alt="Profile Image" /></td>
+                                }
+                                else
+                                {
+                                    <td class="user-profile"><img src="/images/product.jpg" alt="Profile Image" /></td>
+                                }
+                                <td class=" ">@item.ProductName</td>
+                                <td class=" ">@item.Cantity buc.</td>
+                                <td class=" ">@item.ProductPrice RON</td>
+                                <td class=" last">
+                                    <a href="@Url.Action("RemoveProduct", "ShoppingCart", new { productId = item.ProductId })" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-success"><strong>Pret total:</strong></td>
+                                <td class="text-success"><strong>@Model.TotalPrice RON</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    @if (Model.TotalPrice > 0)
+                    {
+                        <a href="@Url.Action("Checkout", "ShoppingCart")" class="btn btn-success btn-block">Pasul Urmator</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

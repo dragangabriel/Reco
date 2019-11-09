@@ -1,0 +1,68 @@
+﻿@model Reco.Models.Product
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                    <div class="product-image">
+                        @if (Model.ImageUrl != null)
+                        {
+                            <img src="/images/@Model.ImageUrl" alt="">
+                        }
+                        else if (Model.Category.ImageUrl != null)
+                        {
+                            <img src="/images/@Model.Category.ImageUrl" alt="">
+                        }
+                        else
+                        {
+                            <img src="/images/product.jpg" alt="">
+                        }
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-12" style="border:0px solid #e5e5e5;">
+                    <h4 class="brief text-warning pull-right"><i style="color:red">@(Model.Category.Nume)</i></h4>
+                    <h3 class="prod_title" style="color:black">@Model.Nume</h3>       
+                    <div class="">
+                        <div class="product_price">
+                            <h1 class="price">@Model.PretCuDiscount RON</h1>
+                            @if (Model.Pret != Model.PretCuDiscount)
+                            {
+                                <strike><span class="price-tax">@Model.Pret RON</span></strike>
+                            }
+                            <br>
+                        </div>
+                    </div>
+                    @if (Session["user"] != null)
+                    {
+                        if (Model.Cantitate > 0)
+                        {                              
+                            <div class="">
+                                <a href="@Url.Action("AddProduct", "ShoppingCart", new { productId = Model.Id })" class="btn btn-success btn-lg">Adauga in cos</a>
+                                <p class="pull-right">Stoc disponibil: @Model.Cantitate</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <h3 class="text-danger">
+                                Stoc epuizat
+                            </h3>
+                        }
+                    }
+                    else
+                    {
+                        <h3>
+                            <a href="@Url.Action("Login", "User")" class="text-danger">Conecteaza-te</a>
+                            pentru a face cumparaturi
+                        </h3>
+                    }
+                    <br /><br />
+                    <pre>@Model.Descriere</pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

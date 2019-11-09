@@ -1,0 +1,325 @@
+﻿@using Reco.Models;
+@model Reco.Models.IndexModel
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group top_search well">
+                    <div class="col-md-3 col-xs-12">
+                        <label>Ordonare</label><br />
+                        <div class="btn-group">
+                            <button class="btn btn-warning">@Model.Order</button>
+                            <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                <li><a href="@Url.Action("Index", "Home", new { page = 1, categoryId = Model.CategoryId, search = Model.Search, sort = "asc" })" class="btn btn-warning btn-block">Ordoneaza crescator dupa pret</a></li>
+                                <li><a href="@Url.Action("Index", "Home", new { page = 1, categoryId = Model.CategoryId, search = Model.Search, sort = "desc" })" class="btn btn-warning btn-block">Ordoneaza descrescator dupa pret</a></li>
+                                <li><a href="@Url.Action("Index", "Home", new { page = 1, categoryId = Model.CategoryId, search = Model.Search, sort = "ascX" })" class="btn btn-warning btn-block">Ordoneaza crescator dupa nume (A...Z)</a></li>
+                                <li><a href="@Url.Action("Index", "Home", new { page = 1, categoryId = Model.CategoryId, search = Model.Search, sort = "descX" })" class="btn btn-warning btn-block">Ordoneaza descrescator dupa nume (Z...A)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <label>Categorii</label><br />
+                        @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.ListaCategorii, "Id", "Nume"), "Toate categoriile", new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Cautare</label><br />
+
+                        <div class="input-group">
+                            <input id="search" type="text" class="form-control" name="search" value="@Model.Search" placeholder="Cauta dupa numele sau descrierea produsului">
+                            <span class="input-group-btn">
+                                <button class="btn btn-warning" onclick="makeRequest()" style="color:white">Cauta</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_title">
+                <h2>@Model.TotalResults produse gasite</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @foreach (var produs in Model.ToateProdusele)
+                {
+                    <div class="col-md-4 col-sm-12 col-xs-12 profile_details text-center margin-bottom-0">
+                        <div class="well profile_view">
+                            <div class="col-xs-12">
+                                <h4 class="brief text-warning"><i style="color:red">@(produs.Category.Nume)</i></h4>
+                                <div class="left col-xs-7">
+                                    <h2 style="color:black">@produs.Nume</h2>
+                                    @if (produs.PretCuDiscount == produs.Pret)
+                                    {
+                                        <h2 class="text-danger">@produs.Pret RON</h2>
+                                    }
+                                    else
+                                    {
+
+                                        <strike><h2 class="text-danger">@produs.Pret RON</h2></strike>
+                                        <h2 class="text-danger">@produs.PretCuDiscount RON</h2>
+                                    }
+                                </div>
+                                <div class="right col-xs-5 text-center">
+                                    @if (produs.ImageUrl != null)
+                                    {
+                                        <img src="/images/@produs.ImageUrl" alt="" class="img-circle img-responsive">
+                                    }
+                                    else if (produs.Category.ImageUrl != null)
+                                    {
+                                        <img src="/images/@produs.Category.ImageUrl" alt="" class="img-circle img-responsive">
+                                    }
+                                    else
+                                    {
+                                        <img src="/images/product.jpg" alt="" class="img-circle img-responsive">
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-xs-12 bottom text-center">
+                                <a href="@Url.Action("ViewProduct", "Home", new { productId = produs.Id })" class="btn btn-primary">Vezi detalii</a>
+                                @if (Session["role"] != null && Session["role"].ToString() == "Admin")
+                                {
+                                    <a href="@Url.Action("EditProduct", "Home", new { productId = produs.Id } )" class="btn btn-warning">Editare detalii</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="col-xs-12 text-center well">
+                    @if (Model.Page > 1)
+                    {
+                        <a href="@Url.Action("Index", "Home", new { page = 1 })" class="btn btn-primary pull-left">Prima pagina</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-primary pull-left" disabled>Prima pagina</a>
+                    }
+                    @if (Model.Page > 1)
+                    {
+                        <a href="@Url.Action("Index", "Home", new { page = Model.Page - 1 })" class="btn btn-primary pull-left">Pagina anterioara</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-primary pull-left" disabled>Pagina anterioara</a>
+                    }
+                    <span>Page @Model.Page / @Model.TotalPages</span>
+                    @if (Model.Page < Model.TotalPages)
+                    {
+                        <a href="@Url.Action("Index", "Home", new { page = Model.TotalPages })" class="btn btn-primary pull-right">Ultima pagina</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-primary pull-right" disabled>Ultima pagina</a>
+                    }
+                    @if (Model.Page < Model.TotalPages)
+                    {
+                        <a href="@Url.Action("Index", "Home", new { page = Model.Page + 1 })" class="btn btn-primary pull-right">Pagina urmatoare</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-primary pull-right" disabled>Pagina urmatoare</a>
+                    }
+
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Recomandari.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel" >
+                <div class="x_title">
+                    <h2 style="color:black">Recomandari</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="slider1">
+                    @foreach (var produs in Model.Recomandari)
+                {
+                            <div class="col-md-3 col-sm-6 col-xs-12 profile_details">
+                                <div class="slide">
+                                    <div class="well profile_view" style="background-color: #adf3ae">
+                                        <div class="col-xs-12">
+                                            <h4 class="brief text-warning"><i>@(produs.Category.Nume)</i></h4>
+                                            <div class="left col-xs-7">
+                                                <h2 style="color:black">@produs.Nume</h2>
+                                                @if (produs.PretCuDiscount == produs.Pret)
+                                                {
+                                                    <h2 class="text-danger">@produs.Pret RON</h2>
+                                                }
+                                                else
+                                                {
+                                                    <strike><h2 class="text-danger">@produs.Pret RON</h2></strike>
+                                                    <h2 class="text-danger">@produs.PretCuDiscount RON</h2>
+                                                }
+                                            </div>
+                                            <div class="right col-xs-5 text-center">
+                                                @if (produs.ImageUrl != null)
+                                                {
+                                                    <img src="/images/@produs.ImageUrl" alt="" class="img-circle img-responsive">
+                                                }
+                                                else
+                                                {
+                                                    <img src="/images/@(produs.Category.Nume).jpg" alt="" class="img-circle img-responsive">
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 bottom text-center">
+                                            <a href="@Url.Action("ViewProduct", "Home", new { productId = produs.Id })" class="btn btn-primary">Vezi detalii</a>
+                                            @if (Session["role"] != null && Session["role"].ToString() == "Admin")
+                                            {
+                                                <a href="@Url.Action("EditProduct", "Home", new { productId = produs.Id })" class="btn btn-warning">Editare detalii</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.UltimeleProduse.Count > 0)
+{
+    <div class="row text-center">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel" style="background-color: #FAC0B3">
+                <div class="x_title">
+                    <h2 style="color:black">Ultimele produse adaugate</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    @foreach (var produs in Model.UltimeleProduse)
+                {
+                        <div class="col-md-3 col-sm-6 col-xs-12 profile_details">
+                            <div class="well profile_view">
+                                <div class="col-sm-12">
+                                    <h4 class="brief text-warning"><i>@(produs.Category.Nume)</i></h4>
+                                    <div class="left col-xs-7">
+                                        <h2>@produs.Nume</h2>
+                                        @if (produs.PretCuDiscount == produs.Pret)
+                                        {
+                                            <h2 class="text-danger">@produs.Pret RON</h2>
+                                        }
+                                        else
+                                        {
+
+                                            <strike><h2 class="text-danger">@produs.Pret RON</h2></strike>
+                                            <h2 class="text-danger">@produs.PretCuDiscount RON</h2>
+                                        }
+                                    </div>
+                                    <div class="right col-xs-5 text-center">
+                                        @if (produs.ImageUrl != null)
+                                        {
+                                            <img src="/images/@produs.ImageUrl" alt="" class="img-circle img-responsive">
+                                        }
+                                        else
+                                        {
+                                            <img src="/images/@(produs.Category.Nume).jpg" alt="" class="img-circle img-responsive">
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 bottom text-center">
+                                    <a href="@Url.Action("ViewProduct", "Home", new { productId = produs.Id })" class="btn btn-primary">Vezi detalii</a>
+                                    @if (Session["role"] != null && Session["role"].ToString() == "Admin")
+                                    {
+                                        <a href="@Url.Action("EditProduct", "Home", new { productId = produs.Id })" class="btn btn-warning">Editare detalii</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.UltimeleVandute.Count > 0)
+{
+    <div class="row text-center">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel" style="background-color: #B3E3FA">
+                <div class="x_title">
+                    <h2 style="color:black">Ultimele produse vandute</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    @foreach (var produs in Model.UltimeleVandute)
+                {
+                        <div class="col-md-3 col-sm-6 col-xs-12 profile_details">
+                            <div class="well profile_view">
+                                <div class="col-sm-12">
+                                    <h4 class="brief text-warning"><i>@(produs.Category.Nume)</i></h4>
+                                    <div class="left col-xs-7">
+                                        <h2>@produs.Nume</h2>
+                                        @if (produs.PretCuDiscount == produs.Pret)
+                                        {
+                                            <h2 class="text-danger">@produs.Pret RON</h2>
+                                        }
+                                        else
+                                        {
+
+                                            <strike><h2 class="text-danger">@produs.Pret RON</h2></strike>
+                                            <h2 class="text-danger">@produs.PretCuDiscount RON</h2>
+                                        }
+                                    </div>
+                                    <div class="right col-xs-5 text-center">
+                                        @if (produs.ImageUrl != null)
+                                        {
+                                            <img src="/images/@produs.ImageUrl" alt="" class="img-circle img-responsive">
+                                        }
+                                        else
+                                        {
+                                            <img src="/images/@(produs.Category.Nume).jpg" alt="" class="img-circle img-responsive">
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 bottom text-center">
+                                    <a href="@Url.Action("ViewProduct", "Home", new { productId = produs.Id })" class="btn btn-primary">Vezi detalii</a>
+                                    @if (Session["role"] != null && Session["role"].ToString() == "Admin")
+                                    {
+                                        <a href="@Url.Action("EditProduct", "Home", new { productId = produs.Id })" class="btn btn-warning">Editare detalii</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="/vendors/jquery/dist/jquery.min.js"></script>
+<script src="~/vendors/jquery/dist/bxSlider.min.js"></script>
+<script>
+    var j = jQuery.noConflict();
+    j(document).ready(function () {
+        j('.slider1').bxSlider({
+            slideWidth: 600,
+            minSlides: 4,
+            maxSlides: 4,
+            slideMargin: 10
+        });
+    });
+</script>
+<script>
+    function makeRequest() {
+        var categoryId = document.getElementById('CategoryId').value;
+        var search = document.getElementById('search').value;
+        location.href = "/Home/Index?categoryId=" + categoryId + "&search=" + search;
+    }
+
+    document.getElementById('CategoryId').onchange = function () {
+        makeRequest();
+    }
+</script>

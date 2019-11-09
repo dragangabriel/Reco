@@ -1,0 +1,54 @@
+﻿@using Reco.Models;
+@using PagedList.Mvc;
+@model List<Reco.Models.CategoryModel>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Administrare categorii</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <a href="@Url.Action("AddCategory", "Categories")" class="btn btn-success btn-block">Adauga categorie</a>
+                </div>
+                <br/><br/><br/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                                <tr class="headings">
+                                    <th>#</th>
+                                    <th>Nume Categorie</th>
+                                    <th>Categorie Activa ?</th>
+                                    <th>Actiune</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="even pointer">
+                                        @if (item.ImageUrl != null)
+                                        {
+                                        <td class="user-profile"><img src="/images/@item.ImageUrl?" alt="Profile Image" /></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="user-profile"><img src="/images/product.png" alt="Profile Image" /></td>
+                                        }
+                                        <td>@item.Nume</td>
+                                        <td>@(item.Arata ? "NU" : "DA")</td>
+                                        <td>
+                                            <a href="@Url.Action("EditCategory", "Categories", new { categoryId = item.Id })" class="btn btn-primary btn-block" aria-hidden="true">Update categorie</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

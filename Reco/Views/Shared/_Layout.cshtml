@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reco</title>
+    <link href="/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/vendors/toastr.css" rel="stylesheet">
+    <link href="/vendors/bxSlider.css" rel="stylesheet">
+    <link href="/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="/build/css/custom.min.css" rel="stylesheet">
+</head>
+<body id="allBody" class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="@Url.Action("Index", "Home")" class="site_title"><i class="fa fa-shopping-cart"></i> <span>&nbsp;&nbsp;Reco</span></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    @if (Session["userId"] != null)
+                    {
+                        <div class="profile clearfix">
+                            <div class="profile_pic">
+                                @if (Session["imageUrl"] != null)
+                                {
+                                    <img src="../images/@Session["imageUrl"]" alt="..." class="img-circle profile_img">
+                                }
+                                else
+                                {
+                                    <img src="../images/user.png" alt="..." class="img-circle profile_img">
+                                }
+                            </div>
+                            <div class="profile_info">
+                                <span>Bine ai venit,</span>
+                                <h2>@Session["user"]</h2>
+                            </div>
+                        </div>
+                    }
+                    <br />
+                    <hr />
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Acasa </a>
+                                </li>
+                                @if (Session["role"] != null && Session["role"].ToString() == "Admin")
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "Categories")"><i class="fa fa-plus-circle"></i> Administreaza categorii</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("AddProduct", "Home")"><i class="fa fa-plus-circle"></i> Adauga produs</a>
+                                    </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "Sales")"><i class="fa fa-desktop"></i> Vanzari</a>
+                                            </li>
+                                }
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (Session["userId"] != null)
+                            {
+                                <li class="">
+                                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        @if (Session["imageUrl"] != null)
+                                        {
+                                            <img src="../images/@Session["imageUrl"]" alt="">@Session["user"]
+                                        }
+                                        else
+                                        {
+                                            <img src="../images/user.png" alt="">@Session["user"]
+                                        }
+                                        <span class="fa fa-angle-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                        <li><a href="@Url.Action("UserProfile", "User" , new { userId=Session["userId"] })"> Profil</a></li>
+                                        <li>
+                                            <a href="@Url.Action("IndexUser", "Sales" , new { userId = Session["userId"] })">
+                                                <span>Comenzi</span>
+                                            </a>
+                                        </li>
+                                        <li><a href="@Url.Action("Logout", "User" )"><i class="fa fa-sign-out pull-right"></i> Iesire</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="">
+                                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <img src="../images/user.png" alt="">Contul meu
+                                        <span class="fa fa-angle-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                        <li><a href="@Url.Action("Login", "User" )"><i class="fa fa-sign-in pull-right"></i>Intra in cont</a></li>
+                                    </ul>
+                                </li>
+                            }
+
+                            @if (Session["user"] != null && Session["shoppingCart"] != null)
+                            {
+                                <li role="presentation" class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-shopping-basket"></i>
+                                        <span class="badge bg-red">@((Session["shoppingCart"] as Reco.Models.ShoppingCartModel).TotalItems)</span>
+                                    </a>
+                                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                        @foreach (var item in (Session["shoppingCart"] as Reco.Models.ShoppingCartModel).Items)
+                                        {
+                                            <li>
+                                                <a>
+                                                    @if (item.ImageUrl != null)
+                                                    {
+                                                        <span class="image"><img src="/images/@item.ImageUrl" alt="Profile Image" /></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="image"><img src="/images/product.jpg" alt="Profile Image" /></span>
+                                                    }
+                                                    <span>
+                                                        <span>@item.ProductName</span><br />
+                                                        <span class="time pull-right"><span class="text-danger">@item.Cantity buc.</span> x <span class="text-warning">@item.ProductPrice RON</span></span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        }
+                                        <li>
+                                            <div class="text-center text-danger">
+                                                <strong>Total de plata: </strong>
+                                                <span>@((Session["shoppingCart"] as Reco.Models.ShoppingCartModel).TotalPrice) RON</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="text-center">
+                                                <a href="@Url.Action("ViewShoppingCart", "ShoppingCart")">
+                                                    <strong>Vezi detalii cos</strong>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+
+            <div class="right_col" role="main">
+                @RenderBody()
+            </div>
+            <footer>
+                <div class="pull-right">
+                    <i class="fa fa-copyright" aria-hidden="true">&nbsp;2017</i>&nbsp;|&nbsp;Sistem de recomandari
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/vendors/toastr.js"></script>
+    <script src="/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="/vendors/nprogress/nprogress.js"></script>
+    <script src="/vendors/Chart.js/dist/Chart.min.js"></script>
+    <script src="/vendors/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+    <script src="/vendors/Flot/jquery.flot.js"></script>
+    <script src="/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="/vendors/Flot/jquery.flot.resize.js"></script>
+    <script src="/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="/vendors/flot.curvedlines/curvedLines.js"></script>
+    <script src="/vendors/DateJS/build/date.js"></script>
+    <script src="/vendors/moment/min/moment.min.js"></script>
+    <script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="/build/js/custom.min.js"></script>
+
+    <script src="/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="/vendors/nprogress/nprogress.js"></script>
+    <script src="/vendors/iCheck/icheck.min.js"></script>
+    <script src="/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
+    <script src="/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script src="/build/js/custom.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var success = '@ViewBag.Success';
+            if (success != '')
+                toastr.success(success);
+
+            error = '@ViewBag.Error';
+            if (error != '')
+                toastr.error(error);
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            var handleDataTableButtons = function () {
+                if ($("#datatable-buttons").length) {
+                    $("#datatable-buttons").DataTable({
+                        dom: "Bfrtip",
+                        buttons: [
+                          {
+                              extend: "copy",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "csv",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "excel",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "pdfHtml5",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "print",
+                              className: "btn-sm"
+                          },
+                        ],
+                        responsive: true
+                    });
+                }
+            };
+
+            TableManageButtons = function () {
+                "use strict";
+                return {
+                    init: function () {
+                        handleDataTableButtons();
+                    }
+                };
+            }();
+
+            $('#datatable').dataTable();
+
+            $('#datatable-keytable').DataTable({
+                keys: true
+            });
+
+            $('#datatable-responsive').DataTable();
+
+            $('#datatable-scroller').DataTable({
+                ajax: "js/datatables/json/scroller-demo.json",
+                deferRender: true,
+                scrollY: 380,
+                scrollCollapse: true,
+                scroller: true
+            });
+
+            $('#datatable-fixed-header').DataTable({
+                fixedHeader: true
+            });
+
+            var $datatable = $('#datatable-checkbox');
+
+            $datatable.dataTable({
+                'order': [[1, 'asc']],
+                'columnDefs': [
+                  { orderable: false, targets: [0] }
+                ]
+            });
+            $datatable.on('draw.dt', function () {
+                $('input').iCheck({
+                    checkboxClass: 'icheckbox_flat-green'
+                });
+            });
+
+            TableManageButtons.init();
+            
+            if ($(window).width() > 1059) {
+                $('#allBody').addClass('nav-md');
+                $('#allBody').removeClass('nav-sm');
+            } else {
+                $('#allBody').addClass('nav-sm');
+                $('#allBody').removeClass('nav-md');
+            }
+
+            $(window).on('resize', function() {
+                if($(window).width() > 1059) {
+                    $('#allBody').addClass('nav-md');
+                    $('#allBody').removeClass('nav-sm');
+                }else{
+                    $('#allBody').addClass('nav-sm');
+                    $('#allBody').removeClass('nav-md');
+                }
+            })
+        });
+    </script>
+</body>
+</html>

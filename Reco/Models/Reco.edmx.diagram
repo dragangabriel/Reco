@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c36513faa32a44209a6b35c4af120f9d" Name="Diagram1" ZoomLevel="98">
+        <EntityTypeShape EntityType="RecoModel.User" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecoModel.Product" Width="1.5" PointX="8.5" PointY="0.5" />
+        <EntityTypeShape EntityType="RecoModel.Sale" Width="1.5" PointX="2.75" PointY="3.625" />
+        <AssociationConnector Association="RecoModel.FK_Sale_User" />
+        <EntityTypeShape EntityType="RecoModel.SaleItem" Width="1.5" PointX="5.25" PointY="3.875" />
+        <AssociationConnector Association="RecoModel.FK_SaleItem_Product" />
+        <AssociationConnector Association="RecoModel.FK_SaleItem_Sale" />
+        <AssociationConnector Association="RecoModel.FK_SaleItem_User" />
+        <EntityTypeShape EntityType="RecoModel.Category" Width="1.5" PointX="6.5" PointY="0.5" />
+        <AssociationConnector Association="RecoModel.FK_Categorie_Product" />
+        <EntityTypeShape EntityType="RecoModel.UserProduct" Width="1.5" PointX="3.625" PointY="0.5" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

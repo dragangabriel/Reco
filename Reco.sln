@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco", "Reco\Reco.csproj", "{20A1BA68-C7B7-4D5A-9CA7-1782A4DF0391}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecoTests", "RecoTests\RecoTests.csproj", "{F67BEFB9-B241-4D0C-AE37-A3825962713D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20A1BA68-C7B7-4D5A-9CA7-1782A4DF0391}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A1BA68-C7B7-4D5A-9CA7-1782A4DF0391}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A1BA68-C7B7-4D5A-9CA7-1782A4DF0391}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A1BA68-C7B7-4D5A-9CA7-1782A4DF0391}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F67BEFB9-B241-4D0C-AE37-A3825962713D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F67BEFB9-B241-4D0C-AE37-A3825962713D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F67BEFB9-B241-4D0C-AE37-A3825962713D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F67BEFB9-B241-4D0C-AE37-A3825962713D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

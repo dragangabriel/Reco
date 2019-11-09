@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RecoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Forename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ImageUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DataCreare" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Sales" Relationship="RecoModel.FK_Sale_User" FromRole="User" ToRole="Sale" />
+    <NavigationProperty Name="SaleItems" Relationship="RecoModel.FK_SaleItem_User" FromRole="User" ToRole="SaleItem" />
+  </EntityType>
+  <EntityContainer Name="RecoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Products" EntityType="RecoModel.Product" />
+    <EntitySet Name="Sales" EntityType="RecoModel.Sale" />
+    <AssociationSet Name="FK_Sale_User" Association="RecoModel.FK_Sale_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Sale" EntitySet="Sales" />
+    </AssociationSet>
+    <EntitySet Name="SaleItems" EntityType="RecoModel.SaleItem" />
+    <AssociationSet Name="FK_SaleItem_Product" Association="RecoModel.FK_SaleItem_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="SaleItem" EntitySet="SaleItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SaleItem_Sale" Association="RecoModel.FK_SaleItem_Sale">
+      <End Role="Sale" EntitySet="Sales" />
+      <End Role="SaleItem" EntitySet="SaleItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SaleItem_User" Association="RecoModel.FK_SaleItem_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="SaleItem" EntitySet="SaleItems" />
+    </AssociationSet>
+    <EntitySet Name="Categories" EntityType="RecoModel.Category" />
+    <AssociationSet Name="FK_Categorie_Product" Association="RecoModel.FK_Categorie_Product">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="UserProducts" EntityType="RecoModel.UserProduct" />
+  </EntityContainer>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Arata" Type="Boolean" Nullable="false" />
+    <Property Name="Pret" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="PretCuDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="Cantitate" Type="Int32" Nullable="false" />
+    <Property Name="Descriere" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImageUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DataCreare" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="SaleItems" Relationship="RecoModel.FK_SaleItem_Product" FromRole="Product" ToRole="SaleItem" />
+    <Property Name="CategorieId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="RecoModel.FK_Categorie_Product" FromRole="Product" ToRole="Category" />
+  </EntityType>
+  <EntityType Name="Sale">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="User" Relationship="RecoModel.FK_Sale_User" FromRole="Sale" ToRole="User" />
+    <NavigationProperty Name="SaleItems" Relationship="RecoModel.FK_SaleItem_Sale" FromRole="Sale" ToRole="SaleItem" />
+  </EntityType>
+  <Association Name="FK_Sale_User">
+    <End Type="RecoModel.User" Role="User" Multiplicity="1" />
+    <End Type="RecoModel.Sale" Role="Sale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sale">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SaleItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SaleId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Product" Relationship="RecoModel.FK_SaleItem_Product" FromRole="SaleItem" ToRole="Product" />
+    <NavigationProperty Name="Sale" Relationship="RecoModel.FK_SaleItem_Sale" FromRole="SaleItem" ToRole="Sale" />
+    <NavigationProperty Name="User" Relationship="RecoModel.FK_SaleItem_User" FromRole="SaleItem" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_SaleItem_Product">
+    <End Type="RecoModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="RecoModel.SaleItem" Role="SaleItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SaleItem">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SaleItem_Sale">
+    <End Type="RecoModel.Sale" Role="Sale" Multiplicity="1" />
+    <End Type="RecoModel.SaleItem" Role="SaleItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sale">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SaleItem">
+        <PropertyRef Name="SaleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SaleItem_User">
+    <End Type="RecoModel.User" Role="User" Multiplicity="1" />
+    <End Type="RecoModel.SaleItem" Role="SaleItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SaleItem">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nume" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="RecoModel.FK_Categorie_Product" FromRole="Category" ToRole="Product" />
+    <Property Name="Arata" Type="Boolean" Nullable="false" />
+    <Property Name="DataCreare" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ImageUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Categorie_Product">
+    <End Type="RecoModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="RecoModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategorieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UserProduct">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+  </EntityType>
+</Schema>

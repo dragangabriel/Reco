@@ -1,0 +1,81 @@
+﻿@using Reco.Models;
+@model Reco.Models.ProductModel
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Editare produs</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                @using (Html.BeginForm("EditProduct", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Nume)
+
+                    <div class="form-group has-feedback">
+                        @Html.LabelFor(m => m.Arata, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-8">
+                            @Html.CheckBoxFor(m => m.Arata, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                        @Html.LabelFor(m => m.Nume, new { @class = "col-md-4 control-label required" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Nume, new { @class = "form-control", @disabled="disabled" })
+                            @Html.ValidationMessageFor(m => m.Nume, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                        @Html.LabelFor(m => m.ListaCategorii, new { @class = "col-md-4 control-label required" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(m => m.CategorieId, new SelectList(Model.ListaCategorii, "Id", "Nume"), "Alege categoria...", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.CategorieId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                        @Html.LabelFor(m => m.Cantitate, new { @class = "col-md-4 control-label required" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Cantitate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Cantitate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                        @Html.LabelFor(m => m.Pret, new { @class = "col-md-4 control-label required" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Pret, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Pret, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                        @Html.LabelFor(m => m.PretCuDiscount, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.PretCuDiscount, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PretCuDiscount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                        @Html.Label("Image", new { @class = "col-md-4 control-label " })
+                        <div class="col-md-8">
+                            <input type="file" class="form-control" id="image" name="image" />
+                        </div>
+                    </div>
+                    <div class="com-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                        @Html.LabelFor(m => m.Descriere, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(m => m.Descriere, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Salveaza produs" class="btn btn-success pull-right" />
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

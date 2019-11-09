@@ -1,0 +1,80 @@
+﻿@using Reco.Models
+@model RegisterUserModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reco</title>
+    <link href="/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="/vendors/animate.css/animate.min.css" rel="stylesheet">
+    <link href="/build/css/custom.min.css" rel="stylesheet">
+</head>
+<body class="login">
+    <div class="text-center margin-top-20" style="border: 0; margin-top:20px;">
+        <a href="@Url.Action("Index", "Home")" style="color:#2A3F54; font-size:22px"><i class="fa fa-shopping-cart"></i> <span>&nbsp;&nbsp;Reco</span></a>
+    </div>
+    <div>
+        <a class="hiddenanchor" id="signin"></a>
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <h1>Inregistrare cont</h1>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label required" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Forename, new { @class = "col-md-2 control-label required" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Forename, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Forename, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label required" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label required" })
+                            <div class="col-md-10">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div>
+                            <input type="submit" value="Inregistrare" class="btn btn-success pull-right" />
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="separator">
+                            <p class="change_link">
+                                Esti deja inregistrat ?
+                                <a href="@Url.Action("Login", "User")" class="to_register"> Conectare </a>
+                            </p>
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+        </div>
+</body>
+</html>
