@@ -24,3 +24,4 @@
 reco/src/* linguist-vendored=false
 reco/js/* linguist-vendored=false
 reco/content/* linguist-vendored=false
+reco/controllers/* linguist-vendored
