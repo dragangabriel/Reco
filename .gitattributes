@@ -22,7 +22,7 @@
 dist/* linguist-vendored=false
 *.html linguist-vendored
 *.css linguist-vendored
-css/* linguist-vendored
-scss/* linguist-vendored
-src/* linguist-vendored
-js/* linguist-vendored
+reco/css/* linguist-vendored
+reco/scss/* linguist-vendored
+reco/src/* linguist-vendored
+reco/js/* linguist-vendored
