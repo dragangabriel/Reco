@@ -16,7 +16,6 @@
 
 # Custom for Visual Studio
 *.cs     diff=csharp
-*.cs linguist-vendored
 
 *.html linguist-vendored=true
 *.css linguist-vendored=true
