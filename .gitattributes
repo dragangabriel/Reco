@@ -19,10 +19,9 @@
 
 *.cs linguist-detectable=true
 
-dist/* linguist-vendored=false
-*.html linguist-vendored
-*.css linguist-vendored
-reco/css/* linguist-vendored
-reco/scss/* linguist-vendored
-reco/src/* linguist-vendored
-reco/js/* linguist-vendored
+reco/content/* linguist-vendored=false
+*.html linguist-vendored=false
+*.css linguist-vendored=false
+reco/css/* linguist-vendored=false
+reco/src/* linguist-vendored=false
+reco/scripts/* linguist-vendored=false
