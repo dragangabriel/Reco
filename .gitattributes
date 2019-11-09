@@ -4,6 +4,10 @@
 # Custom for Visual Studio
 *.cs     diff=csharp
 
+*.c# linguist-detectable=true
+ *.css linguist-detectable=false
+ *.js linguist-detectable=false
+ 
 # Standard to msysgit
 *.doc	 diff=astextplain
 *.DOC	 diff=astextplain
