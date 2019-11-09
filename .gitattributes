@@ -17,9 +17,9 @@
 # Custom for Visual Studio
 *.cs     diff=csharp
 
-*.html linguist-vendored
-*.cs linguist-vendored
-*.js linguist-vendored
-reco/src/* linguist-vendored
-reco/js/* linguist-vendored
-reco/content/* linguist-vendored
+*.html linguist-vendored=false
+*.cs linguist-vendored=false
+*.js linguist-vendored=false
+reco/src/* linguist-vendored=false
+reco/js/* linguist-vendored=false
+reco/content/* linguist-vendored=false
