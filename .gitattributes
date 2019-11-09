@@ -18,6 +18,6 @@
 *.cs     diff=csharp
 *.cs linguist-vendored
 
-*.html linguist-vendored=false
-*.css linguist-vendored=false
-*.js linguist-vendored=false
+reco/*.html linguist-vendored=false
+reco/*.css linguist-vendored=false
+reco/*.js linguist-vendored=false
