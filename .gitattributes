@@ -1,13 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# Custom for Visual Studio
-*.cs     diff=csharp
-
-*.c# linguist-detectable=true
- *.css linguist-detectable=false
- *.js linguist-detectable=false
- *.html linguist-detectable=false
  
 # Standard to msysgit
 *.doc	 diff=astextplain
@@ -20,3 +13,13 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
+
+# Custom for Visual Studio
+*.cs     diff=csharp
+
+*.cs linguist-detectable=true
+
+dist/* linguist-vendored=false
+ *.css linguist-detectable=false
+ *.js linguist-detectable=false
+ *.html linguist-detectable=false
