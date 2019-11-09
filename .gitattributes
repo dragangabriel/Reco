@@ -23,4 +23,3 @@
 reco/src/* linguist-vendored=false
 reco/js/* linguist-vendored=false
 reco/content/* linguist-vendored=false
-reco/*.cs linguist-vendored=true
