@@ -17,5 +17,5 @@
 # Custom for Visual Studio
 *.cs     diff=csharp
 
-reco/*.css linguist-vendored
+reco/controllers/ linguist-vendored
 
